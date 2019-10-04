@@ -1,0 +1,34 @@
+server:
+  port: 8888
+  
+spring:
+  cloud:
+    config:
+      server:
+        health:
+          enabled: false
+              
+        git:
+          uri: https://github.com/marnee01/mderider-{application}.git
+          proxy:
+            https:
+              host: ${proxyuri}
+              port: '8080'
+
+          repos:
+
+            # No proxy for this app in the dev environment
+            WebApp-Dev:
+              pattern: webapp/dev
+              searchPaths: Shared, webapp
+              uri: https://github.com/marnee01/mderider-MultiApps.git
+
+            # Proxy needed for this app in all environments except dev
+            WebApp:
+              pattern: webapp
+              searchPaths: Shared, webapp
+              uri: https://github.com/marnee01/mderider-MultiApps.git
+              proxy:
+                https:
+                  host: ${proxyuri}
+                  port: '8080'
